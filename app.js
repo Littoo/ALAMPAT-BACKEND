@@ -1,5 +1,8 @@
-const express = require("express")
-const mongoose = require("mongoose")
+const express       = require("express")
+const mongoose      = require("mongoose")
+const morgan        = require('morgan')
+const bodyParser    = require('body-parser')
+
 
 const User      = require("./models/user")
 const AuthRoute = require('./routes/auth')    
@@ -36,9 +39,19 @@ app.post("/create_user", async (req, res) => {
 
 mongoose.connect(
     process.env.DB_CONNECTION_STRING, 
-    {useUnifiedTopology: true, useNewUrlParser: true},    
-    (req,res)=> {
-    console.log("Connected to the database");
+    {useUnifiedTopology: true, useNewUrlParser: true}   
+    //,(req,res)=> {
+    //console.log("Connected to the database");}
+)
+
+const db = mongoose.connection
+
+db.on('error', (err)=> {
+    console.log(err)
+})
+
+db.once('open', ()=>{
+    console.log('Database Connection Established')
 })
 
 app.listen(3000, ()=> {
