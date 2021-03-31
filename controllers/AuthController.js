@@ -9,28 +9,30 @@ const register = (req, res, next) => {
                 error:err
             })
         }
-    })
 
-    let user = new User ({
-        name: req.body.name,
-        email: req.body.email,
-        phone_number: req.body.phone_number,
-        address: req.body.address,
-        password: hashedPass
-    })
-
-    user.save()
-    .then(user => {
-        res.json({
-            message: 'User Registered successfully!'
+        let user = new User ({
+            name: req.body.name,
+            email: req.body.email,
+            phone_number: req.body.phone_number,
+            address: req.body.address,
+            password: hashedPass
+        })
+    
+        user.save()
+        .then(user => {
+            res.json({
+                message: 'User Registered successfully!'
+            })
+        })
+    
+        .catch(error =>{
+            res.json({
+                message: 'An error occurred!'
+            })
         })
     })
 
-    .catch(error =>{
-        res.json({
-            message: 'An error occurred!'
-        })
-    })
+   
 }
 
 module.exports = {
