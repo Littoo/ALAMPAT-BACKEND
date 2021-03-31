@@ -27,7 +27,7 @@ const register = (req, res, next) => {
     
         .catch(error =>{
             res.json({
-                message: 'An error occurred!'
+                message: 'An error occurred uwu!'
             })
         })
     })
