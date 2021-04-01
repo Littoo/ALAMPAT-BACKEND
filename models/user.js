@@ -8,13 +8,16 @@ const userSchema = new Schema({
     email: {
         type: String
     },
-    phone_numebr:{
+    phoneNumber:{
         type: String
     },
     address:{
         type: String
     },
     password:{
+        type: String
+    },
+    userType:{
         type: String
     }
 }, {timestamps: true});
