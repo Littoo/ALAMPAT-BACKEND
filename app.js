@@ -10,7 +10,7 @@ const AuthRoute = require('./routes/auth')
 require("dotenv/config")
 
 mongoose.connect(
-    process.env.DB_CONNECTION_LOCAL_STRING, 
+    process.env.ORIG_DB_CONNECTION_STRING, 
     {useUnifiedTopology: true, useNewUrlParser: true}   
     //,(req,res)=> {
     //console.log("Connected to the database");}
@@ -37,6 +37,7 @@ app.use(express.json())
 app.get("/", (req, res)=>{
     res.send("First request hahahaha !!!!")
 })
+
 
 app.get("/users", (req, res)=>{
 
