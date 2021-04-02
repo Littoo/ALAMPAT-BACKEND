@@ -35,7 +35,7 @@ app.use(express.json())
 //app.use(bodyParser.json())
 
 app.get("/", (req, res)=>{
-    res.send("First request hahahaha !!!!")
+    res.send("WELCOME TO ALAMPAT!")
 })
 
 
