@@ -30,7 +30,8 @@ const register = async (req, res, next) => {
             user.save(function(err,user){
                 if(err){
                     res.json({
-                        message: 'an error occurred'
+                        message: 'an error occurred',
+                        error: err
                     })
                 } else {
                     res.json({
@@ -56,33 +57,40 @@ const register = async (req, res, next) => {
 
 
 const login = (req, res, next) => {
-    var username = req.body.username
+    var username = req.body.email
     var password = req.body.password
 
-    User.findOne({ $or: [{ email: username }, { phoneNumber: username }] })
+    User.findOne({ $or: [{ email: username }] })
         .then(user => {
             if (user) {
                 bcrypt.compare(password, user.password, function (err, result) {
                     if (err) {
+                        
                         res.json({
-                            error: err
+                            error: err,
+                            loggedin: false
                         })
                     }
                     if (result) {
                         let token = jwt.sign({ name: user.name }, 'verySecretValue', { expiresIn: '1h' })
+                        res.setHeader("Authorization", token)
                         res.json({
                             message: 'Login Successful!',
-                            token
+                            token,
+                            loggedin: true
                         })
                     } else {
+                        res.setHeader("Error", [error])
                         res.json({
-                            message: 'Password does not matched!'
+                            message: 'Password does not matched!',
+                            loggedin: false
                         })
                     }
                 })
             } else {
                 res.json({
-                    message: 'No user found'
+                    message: 'No user found',
+                    loggedin: false
                 })
             }
         })

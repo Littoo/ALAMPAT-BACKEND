@@ -8,7 +8,7 @@ const userSchema = new Schema({
     },
     DOB: {
         type: Date,
-        required: 'Date of Birth can\'t be empty'
+         //required: 'Date of Birth can\'t be empty'
 
     },
     email: {
