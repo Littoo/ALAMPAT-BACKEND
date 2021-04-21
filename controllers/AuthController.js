@@ -27,18 +27,20 @@ const register = async (req, res, next) => {
                 password: hashedPass
             })
             //try{}
-            user.save()
-                .then(user => {
+            user.save(function(err,user){
+                if(err){
+                    res.json({
+                        message: 'an error occurred'
+                    })
+                } else {
                     res.json({
                         message: 'user registered succesfully',
                         success: true
                     })
-                })
-                .catch(error => {
-                    res.json({
-                        message: 'an error occurred'
-                    })
-                })
+                }
+
+            })
+                
         })
         
   

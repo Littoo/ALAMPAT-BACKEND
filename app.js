@@ -12,10 +12,13 @@ require("dotenv/config")
 
 mongoose.connect(
     process.env.TEST_DB_CONNECTION_STRING,
-    { useUnifiedTopology: true, useNewUrlParser: true }
+    { useUnifiedTopology: true, useNewUrlParser: true })
+   
+    
+mongoose.set("useCreateIndex", true);
     //,(req,res)=> {
     //console.log("Connected to the database");}
-)
+
 
 const db = mongoose.connection
 
@@ -34,8 +37,7 @@ app.use(express.json())
 //app.use(morgan('dev'))
 //app.use(bodyParser.urlencoded({extended: true}))
 //app.use(bodyParser.json())
-
-
+app.post('/', (req,res) =>{})
 
 app.post("/create_user", async (req, res) => {
     try {
@@ -49,8 +51,9 @@ app.post("/create_user", async (req, res) => {
     }
 })
 
-app.use('/users', UserRoute)
 app.use('/auth', AuthRoute)
+app.use('/users', UserRoute)
+
 
 app.listen(3000, () => {
     console.log("Listening to 3000");
