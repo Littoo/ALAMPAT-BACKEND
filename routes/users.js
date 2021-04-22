@@ -8,5 +8,7 @@ router.get('/getUserByEmail', (req, res, next) => {
     const user = userController.getUserByEmail(email)
     res.send({ user })
 })
+
+router.put('/updateAccount/:id?', userController.updateAccount)
 module.exports = router;
 

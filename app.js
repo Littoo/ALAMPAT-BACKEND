@@ -12,10 +12,10 @@ require("dotenv/config")
 
 mongoose.connect(
     process.env.TEST_DB_CONNECTION_STRING,
-    { useUnifiedTopology: true, useNewUrlParser: true })
+    { useUnifiedTopology: true, useNewUrlParser: true, 
+        useCreateIndex: true, useFindAndModify: false 
+    })
    
-    
-mongoose.set("useCreateIndex", true);
     //,(req,res)=> {
     //console.log("Connected to the database");}
 
