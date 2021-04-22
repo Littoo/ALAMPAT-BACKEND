@@ -1,6 +1,37 @@
 const User = require('../models/user')
-const {ObjectId} = require("mongodb");
+const {ObjectId} = require("mongodb")
 const bcrypt = require('bcryptjs')
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, './profileUploads');
+  },
+  filename: function(req, file, cb) {
+    const now = new Date().toISOString();
+    const date = now.replace(/:/g, "-");
+    cb(null, date + file.originalname);
+    
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  // reject a file
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: {
+    fileSize: 1024 * 1024 * 20
+  },
+  fileFilter: fileFilter
+});
+
 
 const getUserByEmail = async (email) => {
     try {
@@ -21,33 +52,41 @@ const updateAccount = async(req, res, next) => {
                     error: err
                 })
             }
-        
-            const user = new User({
-            name: req.body.name,
-            email: req.body.email,
-            phoneNumber: req.body.phoneNumber,
-            address: req.body.address,
-            password: hashedPass, 
-        })
-        User.findByIdAndUpdate( new ObjectId(req.params.id), user)
-            .then(() => {
-                res.json({
-                    message: 'User account data updated successfully!'
+
+            else{
+                const user = new User({
+                name: req.body.name,
+                profileImage: req.file.path,
+                email: req.body.email,
+                phoneNumber: req.body.phoneNumber,
+                address: req.body.address,
+                password: hashedPass, 
+             })
+
+            User.findByIdAndUpdate( new ObjectId(req.params.id), user)
+                .then((result) => {
+                    console.log(result)
+                    res.json({
+                        message: 'User account data updated successfully!',
+                        result
+                    })
+                    
+                }).catch((error)=>{
+                    res.status(400).json({
+                        message: 'User account data update failed!',
+                        error:error
+                    })
+                   
                 })
-            }).catch((error)=>{
-                res.status(400).json({
-                    error:error
-                })
-            })
-        return user
+            }
         })
     }
     catch (error) {
         console.log(error)
-        return { error }
+        res.status(400).json({ error })
     }
 }
 
 module.exports = { 
-    getUserByEmail,updateAccount 
+    getUserByEmail,updateAccount, upload 
 }

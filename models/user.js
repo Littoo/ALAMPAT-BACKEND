@@ -7,6 +7,11 @@ const userSchema = new Schema({
         type: String,
         required: 'Name can\'t be empty'
     },
+    profileImage: {
+        type: String,
+         //required: 'Date of Birth can\'t be empty'
+
+    },
     DOB: {
         type: Date,
          //required: 'Date of Birth can\'t be empty'

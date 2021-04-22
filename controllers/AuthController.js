@@ -19,12 +19,13 @@ const register = async (req, res, next) => {
 
             let user = new User({
                 name: req.body.name,
+                profileImage: null,
                 DOB: req.body.DOB,
                 email: req.body.email,
                 phoneNumber: req.body.phoneNumber,
                 address: req.body.address,
                 userType: req.body.userType,
-                password: hashedPass
+                password: hashedPass,
             })
             //try{}
             user.save(function(err,user){

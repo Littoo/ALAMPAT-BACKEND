@@ -9,6 +9,6 @@ router.get('/getUserByEmail', (req, res, next) => {
     res.send({ user })
 })
 
-router.put('/updateAccount/:id?', userController.updateAccount)
+router.put('/updateAccount/:id?', userController.upload.single('profileImage'), userController.updateAccount)
 module.exports = router;
 
