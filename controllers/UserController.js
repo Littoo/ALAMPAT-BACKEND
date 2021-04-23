@@ -44,6 +44,27 @@ const getUserByEmail = async (email) => {
     }
 }
 
+const getUserList = (req, res, next) => {
+    User.find()
+        .then((users)=>{
+            console.log(users);
+            res.status(200).json({
+                userArray: users
+            })
+        })
+}
+
+const getUserByID = (req, res, next) =>{
+    User.findById(req.params.id)
+        .then((user)=>{
+            if (!user) {
+                return res.status(404).end();
+            }
+            return res.status(200).json(user);
+        })
+        .catch(error => next(error));
+}
+
 const updateAccount = async(req, res, next) => {
     try {
         bcrypt.hash(req.body.password, 10, function (err, hashedPass) {
@@ -88,5 +109,5 @@ const updateAccount = async(req, res, next) => {
 }
 
 module.exports = { 
-    getUserByEmail,updateAccount, upload 
+    getUserByEmail, getUserList, getUserByID, updateAccount, upload 
 }
