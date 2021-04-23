@@ -2,7 +2,7 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const userController = require('./UserController')
-
+require("dotenv/config")
 
 
 const register = async (req, res, next) => {
@@ -73,19 +73,19 @@ const login = (req, res, next) => {
                         })
                     }
                     if (result) {
-                        let token = jwt.sign({ name: user.name }, 'verySecretValue', { expiresIn: '1h' })
-                        res.setHeader("Authorization", token)
+                        let token = jwt.sign({ password: user.password }, process.env.JWT_TOKEN, { expiresIn: '1h' })
+                        
                         res.json({
                             message: 'Login Successful!',
-                            token,
+                            token: token,
                             loggedin: true
                         })
-                    } else {
-                        res.setHeader("Error", [error])
-                        res.json({
-                            message: 'Password does not matched!',
-                            loggedin: false
-                        })
+                    } 
+                    else{    
+                    res.status(401).json({
+                        message: 'Password does not matched!',
+                        loggedin: false
+                    })
                     }
                 })
             } else {
