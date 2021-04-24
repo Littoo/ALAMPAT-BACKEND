@@ -8,7 +8,19 @@ const userSchema = new Schema({
         required: 'Name can\'t be empty'
     },
     profileImage: {
-        type: String,
+        filename : {
+            type : String,
+            unique : true,
+            required: true
+        },
+        contentType : {
+            type: String,
+            required : true
+        },
+        imageBase64 : {
+            type : String,
+            required: true
+        }
          //required: 'Date of Birth can\'t be empty'
 
     },

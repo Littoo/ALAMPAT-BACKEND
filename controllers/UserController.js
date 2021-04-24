@@ -2,6 +2,7 @@ const User = require('../models/user')
 const {ObjectId} = require("mongodb")
 const bcrypt = require('bcryptjs')
 const multer = require('multer');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -58,11 +59,25 @@ const getUserByID = (req, res, next) =>{
     User.findById(req.params.id)
         .then((user)=>{
             if (!user) {
-                return res.status(404).end();
+                console.log()
+                return res.status(404).json({
+                    message: "Data Retrieving Failed",
+                    success: false,
+                    
+                });
             }
-            return res.status(200).json(user);
+            return res.status(200).json({
+                message: "Data Retrieved successfully",
+                success: true,
+                userData: user});
         })
-        .catch(error => next(error));
+        .catch(error => 
+            res.status(400).json({
+                message: "Data Retrieviing Failed!!",
+                error: error,
+                success: false
+            })
+            );
 }
 
 const updateAccount = async(req, res, next) => {
@@ -75,18 +90,33 @@ const updateAccount = async(req, res, next) => {
             }
 
             else{
+                //getting the image file, convert to base64 format and save it into the final image object
+                const imgfile = req.file;
+
+                let img = fs.readFileSync(imgfile.path)
+
+                const enc_file = img.toString('base64') 
+
+                let final_img = {
+                    filename: imgfile.originalname,
+                    contentType: imgfile.mimetype,
+                    imageBase64: enc_file
+                }
+
+                //creates a new user object together with the final image object
                 const user = new User({
                 name: req.body.name,
-                profileImage: req.file.path,
-                email: req.body.email,
+                profileImage: final_img,
+                email: req.body.email,  
                 phoneNumber: req.body.phoneNumber,
                 address: req.body.address,
                 password: hashedPass, 
              })
 
+            //updates the user object data to the database 
             User.findByIdAndUpdate( new ObjectId(req.params.id), user)
                 .then((result) => {
-                    console.log(result)
+                    //console.log(result)
                     res.json({
                         message: 'User account data updated successfully!',
                         result

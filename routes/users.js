@@ -13,8 +13,8 @@ router.get('/getUserByEmail', (req, res, next) => {
 
 router.get('/profile', userController.getUserList)
 
-router.get('/profile/:id', checkAuth, userController.getUserByID)
+router.get('/profile/:id', userController.getUserByID)
 
-router.put('/updateAccount/:id?', checkAuth , userController.upload.single('profileImage')  , userController.updateAccount)
+router.put('/updateAccount/:id?' , userController.upload.single('profileImage')  , userController.updateAccount)
 module.exports = router;
 
