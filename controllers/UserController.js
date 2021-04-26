@@ -91,16 +91,12 @@ const updateAccount = async(req, res, next) => {
 
             else{
                 //getting the image file, convert to base64 format and save it into the final image object
-                const imgfile = req.file;
-
-                let img = fs.readFileSync(imgfile.path)
-
-                const enc_file = img.toString('base64') 
+                
 
                 let final_img = {
-                    filename: imgfile.originalname,
-                    contentType: imgfile.mimetype,
-                    imageBase64: enc_file
+                    filename: req.body.profileImage.filename,
+                    contentType: req.body.profileImage.contentType,
+                    imageBase64: req.body.profileImage.imageBase64
                 }
 
                 //creates a new user object together with the final image object
