@@ -22,6 +22,8 @@ const register = async (req, res, next) => {
                 imageBase64: ''
             }
 
+            console.log(req.body)
+
             let user = new User({
                 name: req.body.name,
                 profileImage: final_img,
