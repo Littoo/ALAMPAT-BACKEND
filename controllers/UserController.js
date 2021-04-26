@@ -105,6 +105,7 @@ const updateAccount = async(req, res, next) => {
                 phoneNumber: req.body.phoneNumber,
                 address: req.body.address,
                 password: hashedPass, 
+                description: req.body.description,
              })
 
             //updates the user object data to the database 

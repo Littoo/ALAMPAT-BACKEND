@@ -16,16 +16,22 @@ const register = async (req, res, next) => {
                 })
             }
 
+            let final_img = {
+                filename: '',
+                contentType: '',
+                imageBase64: ''
+            }
 
             let user = new User({
                 name: req.body.name,
-                profileImage: null,
+                profileImage: final_img,
                 DOB: req.body.DOB,
                 email: req.body.email,
                 phoneNumber: req.body.phoneNumber,
                 address: req.body.address,
                 userType: req.body.userType,
                 password: hashedPass,
+                description: '',
             })
             //try{}
             user.save(function(err,user){

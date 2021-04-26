@@ -48,6 +48,9 @@ const userSchema = new Schema({
     userType: {
         type: String,
         required: 'user type cannot be empty'
+    },
+    description:{
+        type: String,
     }
 }, { timestamps: true });
 
