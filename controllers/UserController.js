@@ -1,8 +1,9 @@
 const User = require('../models/user')
-const {ObjectId} = require("mongodb")
+const ObjectId = require("mongodb").ObjectID
 const bcrypt = require('bcryptjs')
 const multer = require('multer');
 const fs = require('fs');
+const mongoose = require("mongoose");
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -15,6 +16,7 @@ const storage = multer.diskStorage({
     
   }
 });
+
 
 const fileFilter = (req, file, cb) => {
   // reject a file
@@ -77,7 +79,7 @@ const getUserByID = (req, res, next) =>{
                 error: error,
                 success: false
             })
-            );
+        );
 }
 
 const updateAccount = async(req, res, next) => {
@@ -89,8 +91,11 @@ const updateAccount = async(req, res, next) => {
                 })
             }
 
-            else{
+            
 
+            else{
+                console.log(req.params.id);
+                const id = req.params.id
                 let final_img = {
                     filename: req.body.profileImage.filename,
                     contentType: req.body.profileImage.contentType,
@@ -98,18 +103,23 @@ const updateAccount = async(req, res, next) => {
                 }
 
                 //creates a new user object together with the final image object
-                const user = new User({
-                name: req.body.name,
-                profileImage: final_img,
-                email: req.body.email,  
-                phoneNumber: req.body.phoneNumber,
-                address: req.body.address,
-                password: hashedPass, 
-                description: req.body.description,
+                let user = new User({
+                    name: req.body.name,
+                    profileImage: {
+                        filename: req.body.profileImage.filename,
+                        contentType: req.body.profileImage.contentType,
+                        imageBase64: req.body.profileImage.imageBase64
+                    },
+                    email: req.body.email,  
+                    phoneNumber: req.body.phoneNumber,
+                    address: req.body.address,
+                    password: hashedPass, 
+                    description: req.body.description
+              
              })
-
+                console.log(new ObjectId(req.params.id))
             //updates the user object data to the database 
-            User.findByIdAndUpdate( new ObjectId(req.params.id), user)
+            User.findByIdAndUpdate( id , user)
                 .then((result) => {
                     //console.log(result)
                     res.json({
@@ -122,6 +132,7 @@ const updateAccount = async(req, res, next) => {
                     res.status(400).json({
                         message: 'User account data update failed!',
                         error:error,
+                        user,
                         success: false,
                     })
                    

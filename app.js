@@ -36,9 +36,9 @@ app.use(cors())
 app.use(express.json({limit: '50mb'}))
 
 app.use(morgan('dev'))
-app.use('/profileUploads', express.static('profileUploads'));
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+//app.use('/profileUploads', express.static('profileUploads'));
+//app.use(bodyParser.urlencoded({extended: false}))
+//app.use(bodyParser.json())
 
 
 

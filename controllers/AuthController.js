@@ -2,6 +2,7 @@ const User = require('../models/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const userController = require('./UserController')
+const ObjectId = require("mongodb").ObjectID
 require("dotenv/config")
 
 
@@ -25,6 +26,7 @@ const register = async (req, res, next) => {
             console.log(req.body)
 
             let user = new User({
+                _id: new ObjectId(),
                 name: req.body.name,
                 profileImage: final_img,
                 DOB: req.body.DOB,

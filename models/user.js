@@ -2,12 +2,15 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    //_id: mongoose.Schema.Types.ObjectId,
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
     name: {
         type: String,
         required: 'Name can\'t be empty'
     },
     profileImage: {
+        
         filename : {
             type : String,
             unique : true,
@@ -23,11 +26,7 @@ const userSchema = new Schema({
          //required: 'Date of Birth can\'t be empty'
 
     },
-    DOB: {
-        type: Date,
-         //required: 'Date of Birth can\'t be empty'
-
-    },
+ 
     email: {
         type: String,
         required: 'email can\'t be empty',
