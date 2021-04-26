@@ -90,8 +90,6 @@ const updateAccount = async(req, res, next) => {
             }
 
             else{
-                //getting the image file, convert to base64 format and save it into the final image object
-                
 
                 let final_img = {
                     filename: req.body.profileImage.filename,
@@ -115,13 +113,15 @@ const updateAccount = async(req, res, next) => {
                     //console.log(result)
                     res.json({
                         message: 'User account data updated successfully!',
-                        result
+                        result,
+                        success: true,
                     })
                     
                 }).catch((error)=>{
                     res.status(400).json({
                         message: 'User account data update failed!',
-                        error:error
+                        error:error,
+                        success: false,
                     })
                    
                 })
@@ -130,7 +130,8 @@ const updateAccount = async(req, res, next) => {
     }
     catch (error) {
         console.log(error)
-        res.status(400).json({ error })
+        res.status(400).json({ error,
+            success: false, })
     }
 }
 
