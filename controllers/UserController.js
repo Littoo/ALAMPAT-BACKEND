@@ -3,7 +3,7 @@ const ObjectId = require("mongodb").ObjectID
 const bcrypt = require('bcryptjs')
 const multer = require('multer');
 const fs = require('fs');
-const mongoose = require("mongoose");
+
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -90,8 +90,6 @@ const updateAccount = async(req, res, next) => {
                     error: err
                 })
             }
-
-            
 
             else{
                 console.log(req.params.id);

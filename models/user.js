@@ -13,8 +13,7 @@ const userSchema = new Schema({
         
         filename : {
             type : String,
-            unique : true,
-          
+        
         },
         contentType : {
             type: String,
@@ -49,7 +48,12 @@ const userSchema = new Schema({
     },
     description:{
         type: String,
-    }
+    },
+
+    portfolio: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'portfolios'
+    }]
 }, { timestamps: true });
 
 userSchema.path('email').validate((val) => {

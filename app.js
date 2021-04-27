@@ -1,12 +1,13 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const morgan = require('morgan')
-const bodyParser = require('body-parser')
-const cors = require("cors")
+const express     = require("express")
+const mongoose    = require("mongoose")
+const morgan      = require('morgan')
+const bodyParser  = require('body-parser')
+const cors        = require("cors")
 
-const User = require("./models/user")
-const AuthRoute = require('./routes/auth')
-const UserRoute = require('./routes/users')
+const User        = require("./models/user")
+const AuthRoute   = require('./routes/auth')
+const UserRoute   = require('./routes/users')
+const SellerRoute = require('./routes/seller')
 
 require("dotenv/config")
 
@@ -61,6 +62,7 @@ app.post('/', (req,res) =>{})
 
 app.use('/auth', AuthRoute)
 app.use('/users', UserRoute)
+app.use('/seller', SellerRoute)
 
 app.use((req, res, next) => {
     const error = new Error("Not found");
