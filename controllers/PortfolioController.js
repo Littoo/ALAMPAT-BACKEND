@@ -147,8 +147,8 @@ const deleteArtwork = async(req, res, next) => {
             //creates a new user object together with the final image object
            
         //updates the user object data to the database 
-        Portfolio.findByIdAndRemove(req.body._id, function(err, result){
-            if(!err){
+        Portfolio.findByIdAndRemove(req.body._id)
+            .then((result)=>{
                 User.findByIdAndUpdate( req.params.id , { $pull: { portfolio: result._id } })
                 .then((data)=>{
                     res.json({
@@ -164,9 +164,12 @@ const deleteArtwork = async(req, res, next) => {
                         success: false,
                     })
                 })
-            }
-        })
-
+            }).catch((error)=>{
+                res.status(400).json({ 
+                    message: 'Artwork  data to be removed not found',
+                    error: error,
+                    success: false, })
+            })
         
     }
     catch (error) {
