@@ -87,6 +87,7 @@ const updateAccount = async(req, res, next) => {
         bcrypt.hash(req.body.password, 10, function (err, hashedPass) {
             if (err) {
                 res.json({
+                    message: "Failed hashing the password",
                     error: err
                 })
             }

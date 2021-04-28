@@ -37,7 +37,7 @@ const register = async (req, res, next) => {
                 password: hashedPass,
                 description: '',
             })
-            //try{}
+            
             user.save(function(err,user){
                 if(err){
                     res.json({
@@ -87,6 +87,7 @@ const login = (req, res, next) => {
                         
                         res.json({
                             message: 'Login Successful!',
+                            userdata: user,
                             token: token,
                             loggedin: true
                         })
