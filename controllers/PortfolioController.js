@@ -87,12 +87,13 @@ const getArtworkList = async(req, res, next) => {
                 success: false,
             })
         }
-            
+         
     } catch(error){
         console.log(error)
         res.status(404).json({ 
             error,
             success: false, })
+       
     }
 }
 
@@ -103,7 +104,7 @@ const updateArtwork = async(req, res, next) => {
             let art = new Portfolio ({
                 artworkname: req.body.artworkname, 
                 images: {
-                    filename: hashedfile,
+                    filename: req.body.artworkimage.filename,
                     contentType: req.body.artworkimage.contentType,
                     imageBase64: req.body.artworkimage.imageBase64
                 },
@@ -182,6 +183,31 @@ const deleteArtwork = async(req, res, next) => {
 }
 
 
+const getArtByID = (req, res, next) =>{
+    Portfolio.findById(req.params.id)
+        .then((art)=>{
+            if (!art) {
+                console.log()
+                return res.status(404).json({
+                    message: "Art Data Retrieving Failed",
+                    success: false,
+                    
+                });
+            }
+            return res.status(200).json({
+                message: "Art Data Retrieved successfully",
+                success: true,
+                artData: art});
+        })
+        .catch(error => 
+            res.status(400).json({
+                message: "Data Retrieviing Failed!!",
+                error: error,
+                success: false
+            })
+        );
+}
+
 module.exports = { 
-    addArtwork, getArtworkList, updateArtwork,deleteArtwork
+    addArtwork, getArtworkList, updateArtwork,deleteArtwork, getArtByID
 }
