@@ -36,6 +36,10 @@ const register = async (req, res, next) => {
                 userType: req.body.userType,
                 password: hashedPass,
                 description: '',
+                portfolio: [null],
+                cart: [null],
+                reservation: [null],
+                orders: [null]
             })
             
             user.save(function(err,user){
