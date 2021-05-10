@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const multer = require('multer');
 const fs = require('fs');
 
-
+/*
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
     cb(null, './profileUploads');
@@ -35,7 +35,7 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-
+*/
 const getUserByEmail = async (email) => {
     try {
         const user = await User.findOne({ email });
@@ -146,6 +146,7 @@ const updateAccount = async(req, res, next) => {
     }
 }
 
+
 module.exports = { 
-    getUserByEmail, getUserList, getUserByID, updateAccount, upload 
+    getUserByEmail, getUserList, getUserByID, updateAccount, 
 }
