@@ -34,8 +34,8 @@ const upload = multer({
   },
   fileFilter: fileFilter
 });
-
 */
+
 const getUserByEmail = async (email) => {
     try {
         const user = await User.findOne({ email });

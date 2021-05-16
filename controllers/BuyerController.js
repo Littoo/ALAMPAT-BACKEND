@@ -61,16 +61,16 @@ const getCartItems = async(req, res, next) => {
 const deleteCartitem = async(req, res, next) => {
     try{
 
-           User.findByIdAndUpdate(req.params.id , { $pull: { cart: req.body.product_id } })
+           User.findByIdAndUpdate(req.params.id , { $pull: { cart: {$in: req.body.items_ids} } })
            .then((result) => {
                 res.json({
-                    message: 'Item removed from Cart successfully!',
+                    message: 'Item/s removed from Cart successfully!',
                     result: result.cart,
                     success: true,
                 })
            }).catch((error) =>{
                 res.status(400).json({
-                    message: 'Failed to remove product from Cart',
+                    message: 'Failed to remove item/s from Cart',
                     error: error,
                     success: false,
                 })
